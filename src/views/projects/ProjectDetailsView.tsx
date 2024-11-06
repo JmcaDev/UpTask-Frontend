@@ -2,6 +2,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom"
 import { useQuery } from "@tanstack/react-query"
 import { getProjectById } from "@/api/ProjectAPI"
 import AddTaskModal from "@/components/tasks/AddTaskModal"
+import TaskList from "@/components/tasks/TaskList"
 
 function ProjectDetailsView() {
 
@@ -28,11 +29,13 @@ function ProjectDetailsView() {
         <button
           type="button"
           className="bg-purple-400 hover:bg-purple-500 px-10 py-3 text-white text-xl font-bold cursor-pointer transition-colors"
-          onClick={() => navigate("?newTask=true")}
+          onClick={() => navigate(location.pathname + "?newTask=true")}
         >Agregar Tarea</button>
-
-        <AddTaskModal/>
       </nav>
+      <TaskList
+        tasks={data.tasks}
+      />
+      <AddTaskModal/>
     </>
   )
 }
