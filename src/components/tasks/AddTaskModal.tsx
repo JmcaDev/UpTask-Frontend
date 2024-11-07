@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 
 export default function AddTaskModal() {
     const navigate = useNavigate()
+    
     const location = useLocation()
     const queryParams = new URLSearchParams(location.search)
     const modalTask = queryParams.get("newTask")
