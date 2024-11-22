@@ -4,17 +4,19 @@ import { z } from "zod"
 export const authSchema = z.object({
     name: z.string(),
     email: z.string().email(),
-    passowrd: z.string(),
-    password_confirmation: z.string()
+    password: z.string(),
+    password_confirmation: z.string(),
+    token: z.string()
 })
 
 type Auth = z.infer<typeof authSchema>
-export type UserLoginForm = Pick<Auth, "email" | "passowrd">
-
+export type UserLoginForm = Pick<Auth, "email" | "password">
+export type UserRegistrationForm = Pick<Auth, "name" | "email" | "password" | "password_confirmation">
+export type RequestConfirmationCodeForm = Pick<Auth, "email">
+export type ConfirmToken = Pick<Auth, "token">
 
 /** Tasks */
 export const taskStatusSchema = z.enum(["pending","onHold" ,"inProgress" ,"underReview" ,"completed"])
-
 export type TaskStatus = z.infer<typeof taskStatusSchema>
 
 export const taskSchema = z.object({
@@ -48,5 +50,4 @@ export const dashboardProjectSchema = z.array(
 )
 
 export type Project = z.infer<typeof projecSchema>
-
 export type ProjectFormData = Pick<Project, "clientName" | "projectName" | "description">
