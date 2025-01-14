@@ -15,8 +15,8 @@ export async function createNote({projectId, taskId, formData}: Pick<NoteAPIType
         const { data } = await api.post<string>(url, formData)
         return data
     } catch (error) {
-        if(isAxiosError(error) && error.message){
-            throw new Error(error.response?.data.error)
+        if(isAxiosError(error) && error.response){
+            throw new Error(error.response.data.error)
         }
     }
 }
@@ -27,8 +27,8 @@ export async function deleteNote({projectId, taskId, noteId}: Pick<NoteAPIType, 
         const { data } = await api.delete<string>(url)
         return data
     } catch (error) {
-        if(isAxiosError(error) && error.message){
-            throw new Error(error.response?.data.error)
+        if(isAxiosError(error) && error.response){
+            throw new Error(error.response.data.error)
         }
     }
 }
