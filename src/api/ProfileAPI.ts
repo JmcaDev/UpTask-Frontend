@@ -1,5 +1,5 @@
 import { isAxiosError } from "axios";
-import { UserProfileForm } from "../types";
+import { UpdateCurrentPasswordForm, UserProfileForm } from "../types";
 import api from "@/lib/axios";
 
 export async function updateProfile(formData: UserProfileForm) {
@@ -8,8 +8,20 @@ export async function updateProfile(formData: UserProfileForm) {
         const {data} = await api.put<string>(url,formData)
         return data
     } catch (error) {
-        if(isAxiosError(error) && error.message){
-            throw new Error(error.response?.data.error)
+        if(isAxiosError(error) && error.response){
+            throw new Error(error.response.data.error)
+        }
+    }
+}
+
+export async function changePassword(formData: UpdateCurrentPasswordForm) {
+    try {
+        const url = "/auth/update-password"
+        const {data} = await api.put<string>(url,formData)
+        return data
+    } catch (error) {
+        if(isAxiosError(error) && error.response){
+            throw new Error(error.response.data.error)
         }
     }
 }
