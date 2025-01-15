@@ -2,14 +2,17 @@ import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
 
-import { Link } from "react-router-dom"
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { deleteProject, getAllProjects } from "@/api/ProjectAPI"
-import { toast } from 'react-toastify'
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useQuery } from "@tanstack/react-query"
+import { getAllProjects } from "@/api/ProjectAPI"
 import { useAuth } from '@/hooks/useAuth'
 import { isManager } from '@/utils/policies'
+import DeleteProjectModal from '@/components/projects/DeleteProjectModal'
 
 function DashboardView() {
+
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const { data: user, isLoading: authLoading } = useAuth()
 
@@ -18,17 +21,8 @@ function DashboardView() {
     queryFn: getAllProjects
   })
 
-  const queryClient = useQueryClient()
-  const { mutate } = useMutation({
-    mutationFn: deleteProject,
-    onError: (error) => {
-      toast.error(error.message)
-    },
-    onSuccess: (data) => {
-      toast.success(data)
-      queryClient.invalidateQueries({queryKey: ["projects"]})
-    }
-  })
+  
+  
 
   if(isLoading && authLoading) return "cargando..."
 
@@ -98,7 +92,7 @@ function DashboardView() {
                                               <button 
                                                   type='button' 
                                                   className='block px-3 py-1 text-sm leading-6 text-red-500'
-                                                  onClick={() => mutate(project._id) }
+                                                  onClick={() => navigate(location.pathname + `?deleteProject=${project._id}`) }
                                               >
                                                   Eliminar Proyecto
                                               </button>
@@ -121,6 +115,8 @@ function DashboardView() {
           >Crear Proyecto</Link>
         </p>
       )}
+
+      <DeleteProjectModal/>
     </>
   )
 }
