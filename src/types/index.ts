@@ -87,6 +87,11 @@ export const dashboardProjectSchema = z.array(
     })
 )
 
+export const editProjectSchema = projecSchema.pick({
+    projectName: true,
+    clientName: true,
+    description: true,
+})
 export type Project = z.infer<typeof projecSchema>
 export type ProjectFormData = Pick<Project, "clientName" | "projectName" | "description">
 
